@@ -91,6 +91,7 @@ npx tsx client.js
 - Interactive menu-driven interface
 - Requires login (register new account or use existing credentials)
 - Different menus for admin vs regular users
+- To point the client at Railway, add `API_URL=https://your-app.up.railway.app` to your local `.env` before starting the client.
 
 ## Project Structure
 

@@ -1,8 +1,11 @@
 import axios from "axios";
+import dotenv from "dotenv";
 import { createCliApp } from "./cli/menus.js";
 import { createCliActions } from "./cli/actions.js";
 
-const API_URL = "http://localhost:4444";
+dotenv.config({ path: "./.env" });
+
+const API_URL = process.env.API_URL || "http://localhost:4444";
 
 const api = axios.create({
   baseURL: API_URL,
