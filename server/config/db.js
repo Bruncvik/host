@@ -12,6 +12,11 @@ const dbConfig = {
   database: process.env.DB_NAME,
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
+  ssl:
+    process.env.DB_SSL === "true" ||
+    (process.env.DB_HOST && !["localhost", "127.0.0.1"].includes(process.env.DB_HOST))
+      ? { rejectUnauthorized: false }
+      : false,
 };
 
 console.log(`DB config loaded: ${dbConfig.host}:${dbConfig.port}`);
