@@ -1,0 +1,358 @@
+openapi: 3.0.0
+info:
+  title: Habit Tracker API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:4444
+
+tags:
+  - name: User
+  - name: Habit
+  - name: Category
+  - name: HabitCategory
+  - name: HabitLog
+  - name: Reminder
+
+paths:
+
+  /users:
+    get:
+      tags: [User]
+      summary: Get all users
+      responses:
+        "200": { description: List of users }
+
+    post:
+      tags: [User]
+      summary: Create user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required: [email, passwordHash]
+              properties:
+                email: { type: string }
+                passwordHash: { type: string }
+                createdAt:
+                  type: string
+                  format: date-time
+      responses:
+        "201": { description: User created }
+
+  /users/{id}:
+    get:
+      tags: [User]
+      summary: Get user by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200": { description: User found }
+        "404": { description: Not found }
+
+    put:
+      tags: [User]
+      summary: Update user
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                email: { type: string }
+                passwordHash: { type: string }
+      responses:
+        "200": { description: Updated }
+
+    delete:
+      tags: [User]
+      summary: Delete user
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200": { description: Deleted }
+
+  /habits:
+    get:
+      tags: [Habit]
+      summary: Get all habits
+      responses:
+        "200": { description: List of habits }
+
+    post:
+      tags: [Habit]
+      summary: Create habit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required: [name, frequency]
+              properties:
+                name: { type: string }
+                frequency: { type: string }
+                created_at:
+                  type: string
+                  format: date-time
+      responses:
+        "201": { description: Created }
+
+  /habits/{id}:
+    get:
+      tags: [Habit]
+      summary: Get habit
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200": { description: Found }
+
+    put:
+      tags: [Habit]
+      summary: Update habit
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name: { type: string }
+                frequency: { type: string }
+      responses:
+        "200": { description: Updated }
+
+    delete:
+      tags: [Habit]
+      summary: Delete habit
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200": { description: Deleted }
+
+  /categories:
+    get:
+      tags: [Category]
+      summary: Get categories
+      responses:
+        "200": { description: List }
+
+    post:
+      tags: [Category]
+      summary: Create category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required: [name]
+              properties:
+                name: { type: string }
+      responses:
+        "201": { description: Created }
+
+  /categories/{id}:
+    get:
+      tags: [Category]
+      summary: Get category
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200": { description: Found }
+
+    put:
+      tags: [Category]
+      summary: Update category
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name: { type: string }
+      responses:
+        "200": { description: Updated }
+
+    delete:
+      tags: [Category]
+      summary: Delete category
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200": { description: Deleted }
+
+  /habits/{id}/categories:
+    get:
+      tags: [HabitCategory]
+      summary: Get habit categories
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200": { description: List }
+
+    post:
+      tags: [HabitCategory]
+      summary: Add category to habit
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required: [categoryId]
+              properties:
+                categoryId: { type: integer }
+      responses:
+        "201": { description: Created }
+
+  /habits/{id}/categories/{categoryId}:
+    delete:
+      tags: [HabitCategory]
+      summary: Remove category from habit
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+        - in: path
+          name: categoryId
+          required: true
+          schema: { type: integer }
+      responses:
+        "200": { description: Deleted }
+
+  /habits/{id}/logs:
+    get:
+      tags: [HabitLog]
+      summary: Get habit logs
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200": { description: List }
+
+    post:
+      tags: [HabitLog]
+      summary: Create habit log
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                date:
+                  type: string
+                  format: date-time
+      responses:
+        "201": { description: Created }
+
+  /habits/{id}/logs/{logId}:
+    delete:
+      tags: [HabitLog]
+      summary: Delete habit log
+      parameters:
+        - in: path
+          name: id
+          required: true
+        - in: path
+          name: logId
+          required: true
+      responses:
+        "200": { description: Deleted }
+
+  /habits/{id}/reminders:
+    get:
+      tags: [Reminder]
+      summary: Get reminders
+      parameters:
+        - in: path
+          name: id
+          required: true
+      responses:
+        "200": { description: List }
+
+    post:
+      tags: [Reminder]
+      summary: Create reminder
+      parameters:
+        - in: path
+          name: id
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required: [time]
+              properties:
+                time:
+                  type: string
+                  example: "14:30"
+      responses:
+        "201": { description: Created }
+
+  /reminders/{id}:
+    put:
+      tags: [Reminder]
+      summary: Update reminder
+      parameters:
+        - in: path
+          name: id
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                time: { type: string }
+      responses:
+        "200": { description: Updated }
+
+    delete:
+      tags: [Reminder]
+      summary: Delete reminder
+      parameters:
+        - in: path
+          name: id
+          required: true
+      responses:
+        "200": { description: Deleted }
