@@ -31,6 +31,8 @@
     "tsx": "^4.21.0"
   },
   "scripts": {
+    "build": "node -e \"console.log('No build step required')\"",
+    "start": "node server.js",
     "test": "node tests/integration.test.js",
     "test:integration": "node tests/integration.test.js",
     "test:full": "node tests/run-integration-tests.js",

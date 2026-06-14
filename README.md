@@ -56,10 +56,31 @@ Creates all tables: `users`, `habits`, `categories`, `reminders`, `habitlog`, `h
 ### Start the Server
 
 ```bash
-npx tsx server/server.js
+node server.js
 ```
 - Listens on port 4444 (configurable via `PORT` env var)
 - Serves API endpoints at `http://localhost:4444/`
+
+### Railway deployment
+
+Use these settings in Railway:
+
+- Railway will read `nixpacks.toml` from the repo root and use:
+  - Install: `npm ci`
+  - Build: `npm run build`
+  - Start: `npm start`
+
+Set these environment variables from your Railway PostgreSQL service:
+
+- `DB_HOST`
+- `DB_PORT`
+- `DB_NAME`
+- `DB_USER`
+- `DB_PASSWORD`
+- `JWT_SECRET`
+- `NODE_ENV=production`
+
+The CLI client is local-only, so Railway should run the API server, not `client.js`.
 
 ### Run the CLI Client
 
