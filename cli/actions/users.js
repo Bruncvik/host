@@ -3,6 +3,10 @@ import { normalizeRole } from "../common.js";
 import { validateEmail, validatePassword } from "../../server/utils/validators.js";
 
 export function createUserActions(api) {
+  function validationMessage(result) {
+    return result.isValid ? true : result.error;
+  }
+
   async function getUsers() {
     const response = await api.get("/users");
     console.log("\nAll Users\n");
@@ -22,8 +26,7 @@ export function createUserActions(api) {
         name: "email",
         message: "Email:",
         validate: (input) => {
-          const err = validateEmail(input);
-          return err === null ? true : err;
+          return validationMessage(validateEmail(input));
         },
         filter: (input) => String(input || "").trim().toLowerCase(),
       },
@@ -33,8 +36,7 @@ export function createUserActions(api) {
         message: "Password:",
         mask: "*",
         validate: (input) => {
-          const err = validatePassword(input);
-          return err === null ? true : err;
+          return validationMessage(validatePassword(input));
         },
       },
       {
@@ -70,8 +72,7 @@ export function createUserActions(api) {
         validate: (input) => {
           const value = String(input || "").trim();
           if (!value) return true;
-          const err = validateEmail(value);
-          return err === null ? true : err;
+          return validationMessage(validateEmail(value));
         },
         filter: (input) => String(input || "").trim().toLowerCase(),
       },
@@ -82,8 +83,7 @@ export function createUserActions(api) {
         mask: "*",
         validate: (input) => {
           if (!input) return true;
-          const err = validatePassword(input);
-          return err === null ? true : err;
+          return validationMessage(validatePassword(input));
         },
       },
       {

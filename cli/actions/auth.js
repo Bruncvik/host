@@ -3,6 +3,10 @@ import { normalizeRole } from "../common.js";
 import { validateEmail, validatePassword } from "../../server/utils/validators.js";
 
 export function createAuthActions(api) {
+  function validationMessage(result) {
+    return result.isValid ? true : result.error;
+  }
+
   function setApiAuthToken(token) {
     if (!api.defaults.headers.common) {
       api.defaults.headers.common = {};
@@ -23,8 +27,7 @@ export function createAuthActions(api) {
         name: "email",
         message: "Email:",
         validate: (input) => {
-          const err = validateEmail(input);
-          return err === null ? true : err;
+          return validationMessage(validateEmail(input));
         },
         filter: (input) => String(input || "").trim().toLowerCase(),
       },
@@ -34,8 +37,7 @@ export function createAuthActions(api) {
         message: "Password:",
         mask: "*",
         validate: (input) => {
-          const err = validatePassword(input);
-          return err === null ? true : err;
+          return validationMessage(validatePassword(input));
         },
       },
     ]);
