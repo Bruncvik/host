@@ -82,16 +82,27 @@ Set these environment variables from your Railway PostgreSQL service:
 
 The CLI client is local-only, so Railway should run the API server, not `client.js`.
 
+Public API URL for remote users:
+
+- `https://host-production-0dd6.up.railway.app`
+
+How a foreign user connects:
+
+1. Clone the repository locally.
+2. Create a local `.env` file with your own credentials and `API_URL=https://host-production-0dd6.up.railway.app`.
+3. Start the CLI client with `npm run client`.
+4. Register or log in through the menu, and the client will send requests to the hosted API instead of `localhost`.
+
 ### Run the CLI Client
 
 In another terminal:
 ```bash
-npx tsx client.js
+npm run client
 ```
 - Interactive menu-driven interface
 - Requires login (register new account or use existing credentials)
 - Different menus for admin vs regular users
-- To point the client at Railway, add `API_URL=https://your-app.up.railway.app` to your local `.env` before starting the client.
+- To point the client at Railway, add `API_URL=https://host-production-0dd6.up.railway.app` to your local `.env` before starting the client.
 
 ## Project Structure
 
