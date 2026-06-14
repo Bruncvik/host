@@ -47,4 +47,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.use(errorHandler);
 
-startReminderScheduler();
+if (process.env.ENABLE_REMINDERS === "true") {
+	startReminderScheduler();
+} else {
+	console.log("Reminder service disabled.");
+}
