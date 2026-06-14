@@ -19,6 +19,10 @@ dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 export const app = express();
 
+app.get("/health", (req, res) => {
+	res.json({ status: "ok" });
+});
+
 app.use(cors());
 app.use(rateLimitRequests);
 app.use(express.json({ limit: "10kb" }));
